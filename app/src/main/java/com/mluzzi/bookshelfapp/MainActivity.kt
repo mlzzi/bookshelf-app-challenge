@@ -11,7 +11,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.mluzzi.bookshelfapp.ui.BookshelfApp
 import com.mluzzi.bookshelfapp.ui.theme.BookshelfAppTheme
+import com.mluzzi.bookshelfapp.ui.theme.screens.BookshelfUiState
 import com.mluzzi.bookshelfapp.ui.theme.screens.HomeScreen
 
 class MainActivity : ComponentActivity() {
@@ -20,7 +22,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             BookshelfAppTheme {
-                HomeScreen()
+                BookshelfApp()
             }
         }
     }
