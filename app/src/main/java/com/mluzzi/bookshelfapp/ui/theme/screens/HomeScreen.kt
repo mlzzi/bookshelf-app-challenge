@@ -1,96 +1,90 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.mluzzi.bookshelfapp.ui.theme.screens
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
+import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.mluzzi.bookshelfapp.R
-import com.mluzzi.bookshelfapp.network.BookItem
 
 @Composable
-fun HomeScreen(
-    modifier: Modifier = Modifier,
-    bookshelfUiState: BookshelfUiState,
-    retryAction: () -> Unit
-) {
-    when (bookshelfUiState) {
-        is BookshelfUiState.Loading -> LoadingScreen()
-        is BookshelfUiState.Success -> BookshelfList(books = bookshelfUiState.books)
-        is BookshelfUiState.Error -> ErrorScreen(
-            retryAction = retryAction,
-            modifier = modifier.fillMaxSize()
-        )
-    }
-}
+fun HomeScreen(navController: NavHostController, bookshelfViewModel: BookshelfViewModel) {
+    var text by remember { mutableStateOf("") }
 
-@Composable
-fun ErrorScreen(modifier: Modifier = Modifier, retryAction: () -> Unit) {
     Column(
-        modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(12.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.ic_launcher_foreground),
-            contentDescription = ""
+        TextField(
+            value = text,
+            onValueChange = { text = it },
+            label = {
+                Text(
+                    stringResource(R.string.digite_sua_busca_aqui),
+                    fontSize = 18.sp
+                )
+            },
+            modifier = Modifier
+                .height(75.dp)
+                .fillMaxWidth()
+                .padding(10.dp)
+                .clip(RoundedCornerShape(16.dp)),
+            shape = RoundedCornerShape(16.dp)
         )
-        Text(text = stringResource(id = R.string.loading_failed), Modifier.padding(16.dp))
-        Button(onClick = retryAction) {
-            Text(stringResource(id = R.string.retry))
+
+        Spacer(modifier = Modifier.height(4.dp))
+
+        Button(
+            onClick = {
+                navController.navigate("result/$text")
+                bookshelfViewModel.getBooks(text)
+            },
+            modifier = Modifier
+                .height(70.dp)
+                .fillMaxWidth()
+                .padding(10.dp)
+                .clip(RoundedCornerShape(16.dp)),
+            shape = RoundedCornerShape(16.dp)
+        ) {
+            Text(
+                stringResource(R.string.buscar),
+                fontSize = 18.sp
+            )
         }
+
+        Spacer(modifier = Modifier.height(100.dp))
     }
 }
 
-@Composable
-fun LoadingScreen(modifier: Modifier = Modifier) {
-    Image(
-        modifier = modifier.size(200.dp),
-        painter = painterResource(id = R.drawable.ic_launcher_foreground),
-        contentDescription = stringResource(id = R.string.loading)
-    )
-}
 
-@Composable
-fun BookshelfList(books: List<BookItem>, modifier: Modifier = Modifier) {
-    LazyColumn(modifier = modifier) {
-        items(items = books, key = { book -> book.id }) { book ->
-            BookItemView(book = book)
-        }
-    }
-}
-
-@Composable
-fun BookItemView(book: BookItem) {
-    Column(modifier = Modifier.padding(16.dp)) {
-        Text(text = "Title: ${book.volumeInfo.title}")
-        Text(
-            text = "Authors: ${book.volumeInfo.authors?.joinToString(", ")}"
-        )
-        val imageUrl = book.volumeInfo.imageLinks?.thumbnail?.replace("http", "https")
-        AsyncImage(
-            model = ImageRequest.Builder(context = LocalContext.current)
-                .data(imageUrl)
-                .crossfade(true)
-                .build(),
-            contentDescription = null,
-            modifier = Modifier.padding(top = 8.dp),
-            placeholder = painterResource(R.drawable.ic_launcher_foreground),
-            error = painterResource(R.drawable.ic_launcher_foreground)
-        )
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun HomeScreenPreview() {
+//    HomeScreen(navController = NavHostController(LocalContext.current))
+//}
