@@ -1,4 +1,6 @@
-@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class,
+    ExperimentalMaterial3Api::class
+)
 
 package com.mluzzi.bookshelfapp.ui
 
@@ -16,9 +18,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.mluzzi.bookshelfapp.R
+import com.mluzzi.bookshelfapp.ui.theme.screens.BookshelfUiState
 import com.mluzzi.bookshelfapp.ui.theme.screens.BookshelfViewModel
 import com.mluzzi.bookshelfapp.ui.theme.screens.HomeScreen
+import com.mluzzi.bookshelfapp.ui.theme.screens.ResultScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -35,15 +44,12 @@ fun BookshelfApp() {
                 .padding(it)
         ) {
             val bookshelfViewModel: BookshelfViewModel = viewModel(factory = BookshelfViewModel.Factory)
-            HomeScreen(
+            Navigation(
                 bookshelfUiState = bookshelfViewModel.bookshelfUiState,
-                retryAction = bookshelfViewModel::getBooks
-            )
+                bookshelfViewModel = bookshelfViewModel
+                )
         }
     }
-    val viewModel: BookshelfViewModel = viewModel(
-        factory = BookshelfViewModel.Factory
-    )
 }
 
 @Composable
@@ -53,4 +59,21 @@ fun BookshelfTopAppBar(scrollBehavior: TopAppBarScrollBehavior) {
             style = MaterialTheme.typography.titleLarge,
         )
     })
+}
+
+@Composable
+fun Navigation(bookshelfUiState: BookshelfUiState, bookshelfViewModel: BookshelfViewModel) {
+    val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = "home") {
+        composable("home") { HomeScreen(navController, bookshelfViewModel) }
+        composable(
+            "result/{searchText}",
+            arguments = listOf(navArgument("searchText") { type = NavType.StringType })
+        ) { backStackEntry ->
+            ResultScreen(
+                bookshelfUiState = bookshelfUiState,
+                retryAction = { navController.navigate("home") }
+            )
+        }
+    }
 }

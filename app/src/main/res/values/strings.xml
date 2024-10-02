@@ -3,4 +3,6 @@
     <string name="loading_failed">Loading Failed</string>
     <string name="retry">Retry</string>
     <string name="loading">Loading</string>
+    <string name="buscar">Buscar</string>
+    <string name="digite_sua_busca_aqui">Digite sua busca aqui.</string>
 </resources>

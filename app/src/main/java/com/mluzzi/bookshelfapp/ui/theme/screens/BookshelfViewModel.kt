@@ -3,8 +3,6 @@ package com.mluzzi.bookshelfapp.ui.theme.screens
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
@@ -29,14 +27,10 @@ class BookshelfViewModel(private val bookshelfRepository: BookshelfRepository) :
     var bookshelfUiState: BookshelfUiState by mutableStateOf(BookshelfUiState.Loading)
         private set
 
-    init {
-        getBooks()
-    }
-
-    fun getBooks() {
+    fun getBooks(query: String) {
         viewModelScope.launch {
             bookshelfUiState = try {
-                BookshelfUiState.Success(bookshelfRepository.getBooks("game+thrones"))
+                BookshelfUiState.Success(bookshelfRepository.getBooks(query))
             } catch (e: IOException) {
                 BookshelfUiState.Error
             } catch (e: HttpException) {
