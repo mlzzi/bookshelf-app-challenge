@@ -9,9 +9,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.mluzzi.bookshelfapp.model.BookItem
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
+import com.mluzzi.bookshelfapp.R
+import com.mluzzi.bookshelfapp.network.BookItem
 
 @Composable
 fun HomeScreen(viewModel: BookshelfViewModel = viewModel()) {
@@ -27,10 +32,20 @@ fun HomeScreen(viewModel: BookshelfViewModel = viewModel()) {
 @Composable
 fun BookItemView(book: BookItem) {
     Column(modifier = Modifier.padding(16.dp)) {
-        Text(text = "ID: ${book.id}")
         Text(text = "Title: ${book.volumeInfo.title}")
         Text(
             text = "Authors: ${book.volumeInfo.authors?.joinToString(", ")}"
+        )
+        val imageUrl = book.volumeInfo.imageLinks?.thumbnail?.replace("http", "https")
+        AsyncImage(
+            model = ImageRequest.Builder(context = LocalContext.current)
+                .data(imageUrl)
+                .crossfade(true)
+                .build(),
+            contentDescription = null,
+            modifier = Modifier.padding(top = 8.dp),
+            placeholder = painterResource(R.drawable.ic_launcher_foreground),
+            error = painterResource(R.drawable.ic_launcher_foreground)
         )
     }
 }

@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mluzzi.bookshelfapp.model.BookItem
-import com.mluzzi.bookshelfapp.network.RetrofitInstance
+import com.mluzzi.bookshelfapp.network.BookItem
+import com.mluzzi.bookshelfapp.model.RetrofitInstance
 import kotlinx.coroutines.launch
 
 class BookshelfViewModel : ViewModel() {

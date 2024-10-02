@@ -1,4 +1,4 @@
-package com.mluzzi.bookshelfapp.model
+package com.mluzzi.bookshelfapp.network
 
 import com.google.gson.annotations.SerializedName
 
@@ -18,5 +18,12 @@ data class VolumeInfo(
     @SerializedName("title")
     val title: String,
     @SerializedName("authors")
-    val authors: List<String>?
+    val authors: List<String>?,
+    @SerializedName("imageLinks")
+    val imageLinks: ImageLinks?
+)
+
+data class ImageLinks(
+    @SerializedName("thumbnail")
+    val thumbnail: String
 )
