@@ -17,9 +17,7 @@ O **Bookshelf Application** é um aplicativo Android desenvolvido como parte de 
 
 ## 📷 Screenshot
 
-<img src="./Screenshot_01.png" alt="Screenshot 01" width="300"/>
-<img src="./Screenshot_02.png" alt="Screenshot 01" width="300"/>
-<img src="./Screenshot_03.png" alt="Screenshot 01" width="300"/>
+<img src="./Screenshot_01.png" alt="Screenshot 01" width="300"/> <img src="./Screenshot_02.png" alt="Screenshot 01" width="300"/> <img src="./Screenshot_03.png" alt="Screenshot 01" width="300"/>
 
 ## 🚀 Funcionalidades
 
