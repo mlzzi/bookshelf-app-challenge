@@ -1,8 +1,6 @@
 # 📚 Aplicativo Bookshelf
 
-![Logo do Projeto](app/src/main/res/drawable/logo_bookshelf.png)
-
-<img src="app/src/main/res/drawable/logo_bookshelf.png" alt="Screenshot 01" width="200"/>
+<img src="app/src/main/res/drawable/logo_bookshelf.png" alt="Screenshot 01" width="150"/>
 
 ## 📑 Índice
 
