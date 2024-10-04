@@ -1,6 +1,6 @@
 # 📚 Aplicativo Bookshelf
 
-<img src="./logo_bookshelf.png" alt="Logo" width="200"/>
+
 ![Logo do Projeto](app/src/main/res/drawable/logo_bookshelf.png)
 
 
