@@ -1,6 +1,6 @@
 # 📚 Aplicativo Bookshelf
 
-![Logo do Bookshelf](.\bookshelf-app-challenge\app\src\main\res\drawable\logo_bookshelf.png)
+<img src="./app/src/main/res/drawable.png" alt="Logo" width="200"/>
 
 ## 📑 Índice
 
