@@ -1,10 +1,8 @@
 # 📚 Aplicativo Bookshelf
 
-<ImageView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:src="@drawable/logo"
-    android:contentDescription="Logo" />
+<img src="./logo_bookshelf.png" alt="Logo" width="200"/>
+![Logo do Projeto](./app/src/main/res/drawable/logo_bookshelf.png)
+
 
 ## 📑 Índice
 
