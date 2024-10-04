@@ -1,6 +1,6 @@
 # 📚 Aplicativo Bookshelf
 
-<img src="./app/src/main/res/drawable.png" alt="Logo" width="200"/>
+<img src="./app/src/main/res/drawable/logo.png" alt="Logo" width="200"/>
 
 ## 📑 Índice
 
