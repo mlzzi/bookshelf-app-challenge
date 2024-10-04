@@ -1,6 +1,10 @@
 # 📚 Aplicativo Bookshelf
 
-<img src="./app/src/main/res/drawable/logo.png" alt="Logo" width="200"/>
+<ImageView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:src="@drawable/logo"
+    android:contentDescription="Logo" />
 
 ## 📑 Índice
 
