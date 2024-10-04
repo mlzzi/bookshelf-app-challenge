@@ -17,6 +17,9 @@ import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -24,6 +27,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.mluzzi.bookshelfapp.R
+import com.mluzzi.bookshelfapp.ui.theme.screens.BookInfoScreen
 import com.mluzzi.bookshelfapp.ui.theme.screens.BookshelfUiState
 import com.mluzzi.bookshelfapp.ui.theme.screens.BookshelfViewModel
 import com.mluzzi.bookshelfapp.ui.theme.screens.HomeScreen
@@ -57,6 +61,8 @@ fun BookshelfTopAppBar(scrollBehavior: TopAppBarScrollBehavior) {
     TopAppBar(title = {
         Text(text = stringResource(R.string.app_name),
             style = MaterialTheme.typography.titleLarge,
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Bold
         )
     })
 }
@@ -72,7 +78,20 @@ fun Navigation(bookshelfUiState: BookshelfUiState, bookshelfViewModel: Bookshelf
         ) { backStackEntry ->
             ResultScreen(
                 bookshelfUiState = bookshelfUiState,
+                navController = navController,
                 retryAction = { navController.navigate("home") }
+            )
+        }
+        composable(
+            "bookInfo/{bookId}",
+            arguments = listOf(navArgument("bookId") { type = NavType.StringType })
+        ) { backStackEntry ->
+            BookInfoScreen(
+                bookId = backStackEntry.arguments?.getString("bookId") ?: "",
+                bookshelfViewModel = bookshelfViewModel,
+                retryAction = {
+                    navController.navigate("result")
+                }
             )
         }
     }

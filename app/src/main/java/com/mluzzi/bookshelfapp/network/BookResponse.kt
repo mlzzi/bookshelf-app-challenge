@@ -17,13 +17,19 @@ data class BookItem(
 data class VolumeInfo(
     @SerializedName("title")
     val title: String,
+    @SerializedName("subtitle")
+    val subtitle: String?,
     @SerializedName("authors")
     val authors: List<String>?,
+    @SerializedName("description")
+    val description: String?,
     @SerializedName("imageLinks")
     val imageLinks: ImageLinks?
 )
 
 data class ImageLinks(
     @SerializedName("thumbnail")
-    val thumbnail: String
+    val thumbnail: String,
+    @SerializedName("small")
+    val small: String
 )

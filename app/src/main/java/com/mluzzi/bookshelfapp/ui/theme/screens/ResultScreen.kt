@@ -1,6 +1,7 @@
 package com.mluzzi.bookshelfapp.ui.theme.screens
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,6 +25,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.mluzzi.bookshelfapp.R
@@ -33,15 +35,18 @@ import com.mluzzi.bookshelfapp.network.BookItem
 fun ResultScreen(
     modifier: Modifier = Modifier,
     bookshelfUiState: BookshelfUiState,
+    navController: NavHostController,
     retryAction: () -> Unit
 ) {
     when (bookshelfUiState) {
         is BookshelfUiState.Loading -> LoadingScreen()
-        is BookshelfUiState.Success -> BookshelfList(books = bookshelfUiState.books)
+        is BookshelfUiState.Success -> BookshelfList(books = bookshelfUiState.books, navController = navController)
         is BookshelfUiState.Error -> ErrorScreen(
             retryAction = retryAction,
             modifier = modifier.fillMaxSize()
         )
+
+        else -> {}
     }
 }
 
@@ -53,8 +58,9 @@ fun ErrorScreen(modifier: Modifier = Modifier, retryAction: () -> Unit) {
         verticalArrangement = Arrangement.Center
     ) {
         Image(
-            painter = painterResource(id = R.drawable.ic_launcher_foreground),
-            contentDescription = ""
+            painter = painterResource(id = R.drawable.broken_image),
+            contentDescription = "",
+            modifier = Modifier.size(100.dp)
         )
         Text(text = stringResource(id = R.string.loading_failed), Modifier.padding(16.dp))
         Button(onClick = retryAction) {
@@ -67,7 +73,7 @@ fun ErrorScreen(modifier: Modifier = Modifier, retryAction: () -> Unit) {
 fun LoadingScreen(modifier: Modifier = Modifier) {
     Image(
         modifier = modifier.size(200.dp),
-        painter = painterResource(id = R.drawable.ic_launcher_foreground),
+        painter = painterResource(id = R.drawable.loading_image),
         contentDescription = stringResource(id = R.string.loading)
     )
 }
@@ -75,27 +81,31 @@ fun LoadingScreen(modifier: Modifier = Modifier) {
 @Composable
 fun BookshelfList(
     books: List<BookItem>,
+    navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
     LazyVerticalGrid(
-        columns = GridCells.Fixed(3), // Duas colunas
+        columns = GridCells.Fixed(3),
         modifier = Modifier.padding(4.dp)
     ) {
         items(items = books, key = { book -> book.id }) { book ->
-            BookItem(book = book)
+            BookItem(book = book) { bookId ->
+                navController.navigate("bookInfo/$bookId")
+            }
         }
     }
 }
 
 @Composable
-fun BookItem(book: BookItem) {
+fun BookItem(book: BookItem, onBookClick: (String) -> Unit) {
     Card(
         modifier = Modifier
             .padding(4.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable { onBookClick(book.id) },
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
-        Column{
+        Column {
             val imageUrl = book.volumeInfo.imageLinks?.thumbnail?.replace("http", "https")
             AsyncImage(
                 model = ImageRequest.Builder(context = LocalContext.current)
@@ -103,50 +113,19 @@ fun BookItem(book: BookItem) {
                     .crossfade(true)
                     .build(),
                 contentDescription = null,
-                modifier = Modifier.fillMaxSize().height(180.dp),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .height(180.dp),
                 contentScale = ContentScale.FillBounds,
-                placeholder = painterResource(R.drawable.ic_launcher_foreground),
-                error = painterResource(R.drawable.ic_launcher_foreground)
+                placeholder = painterResource(R.drawable.loading_image),
+                error = painterResource(R.drawable.broken_image),
             )
         }
     }
 }
 
-@Preview
-@Composable
-fun LoadingScreenPreview() {
-    BookshelfList(books = listOf())
-}
-
-
+//@Preview
 //@Composable
-//fun BookshelfList(
-//    books: List<BookItem>,
-//    modifier: Modifier = Modifier
-//) {
-//    LazyColumn(modifier = modifier) {
-//        items(items = books, key = { book -> book.id }) { book ->
-//            BookItemView(book = book)
-//        }
-//    }
-//}
-//@Composable
-//fun BookItemView(book: BookItem) {
-//    Column(modifier = Modifier.padding(16.dp)) {
-//        Text(text = "Title: ${book.volumeInfo.title}")
-//        Text(
-//            text = "Authors: ${book.volumeInfo.authors?.joinToString(", ")}"
-//        )
-//        val imageUrl = book.volumeInfo.imageLinks?.thumbnail?.replace("http", "https")
-//        AsyncImage(
-//            model = ImageRequest.Builder(context = LocalContext.current)
-//                .data(imageUrl)
-//                .crossfade(true)
-//                .build(),
-//            contentDescription = null,
-//            modifier = Modifier.padding(top = 8.dp),
-//            placeholder = painterResource(R.drawable.ic_launcher_foreground),
-//            error = painterResource(R.drawable.ic_launcher_foreground)
-//        )
-//    }
+//fun LoadingScreenPreview() {
+//    BookshelfList(books = listOf())
 //}
