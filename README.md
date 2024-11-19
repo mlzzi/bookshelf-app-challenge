@@ -1,6 +1,6 @@
 # 📚 Aplicativo Bookshelf
 
-![Logo do Bookshelf](caminho_para_imagem_do_logo)
+![Logo do Bookshelf](./logo.png)
 
 ## 📑 Índice
 
