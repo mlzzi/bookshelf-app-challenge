@@ -1,7 +1,5 @@
 # 📚 Aplicativo Bookshelf
 
-![Logo do Bookshelf](./app/src/main/res/drawable/logo_bookshelf.png)
-
 ## 📑 Índice
 
 - [Visão Geral](#-visão-geral)
