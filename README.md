@@ -1,6 +1,6 @@
 # 📚 Aplicativo Bookshelf
 
-![Logo do Bookshelf](caminho_para_imagem_do_logo)
+![Logo do Bookshelf](./app/src/main/res/drawable/logo_bookshelf.png)
 
 ## 📑 Índice
 
@@ -17,7 +17,7 @@ O **Bookshelf Application** é um aplicativo Android desenvolvido como parte de 
 
 ## 📷 Screenshot
 
-![](./Screenshot_01.png) ![](./Screenshot_02.png) ![](./Screenshot_03.png)
+![](./Screenshot.png)
 
 ## 🚀 Funcionalidades
 

@@ -53,7 +53,6 @@ fun HomeScreen(navController: NavHostController, bookshelfViewModel: BookshelfVi
             contentDescription = null,
             modifier = Modifier
                 .height(180.dp)
-                //.fillMaxWidth()
                 .size(width = 150.dp, height = 150.dp)
                 .clip(RoundedCornerShape(16.dp)),
         )
@@ -103,10 +102,3 @@ fun HomeScreen(navController: NavHostController, bookshelfViewModel: BookshelfVi
         Spacer(modifier = Modifier.height(100.dp))
     }
 }
-
-
-//@Preview(showBackground = true)
-//@Composable
-//fun HomeScreenPreview() {
-//    HomeScreen(navController = NavHostController(LocalContext.current))
-//}
